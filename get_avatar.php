@@ -13,27 +13,44 @@ Author URI: http://profiles.wordpress.org/codecandid
 2014-06-13 - v0.1
 */
 
+
+
+
+
 if ( function_exists( 'get_avatar' ) ) {
-function candid_user_gravatar_shortcode ( $attributes ) {
+	
+function brw_get_avatar_shortcode ( $attributes ) {
+	  
 	  global $current_user;
           get_currentuserinfo();
+          $id = $current_user->ID;
+          
 	  extract(shortcode_atts(array(
-		       "id" => $current_user->ID,
-		       "size" => 32,
-		       "default" => 'mystery',
-		       "alt" => '',
-		       "class" => '',
-		       "style" => '',
+		       'id' => $current_user->ID,
+		       'size' => 32,
+		       'default' => 'mystery',
+		       'alt' => '',
+                       'class' => '',
+                       'rating' => '',
+                       'extra_attr' => '',
+                       'width' => '',
+                       'height' => '',
+                       'force_display' => ''
 	  ), $attributes, 'get_avatar' ));
-	  $get_avatar= get_avatar( $id, $size, $default, $alt );
-	   ?>
-<style type="text/css">
-.get_avatar{display:inline-block}.get_avatar img.avatar.photo{display:block}.get_avatar.circle img.avatar.photo{border-radius:50%;-moz-border-radius:50%;-webkit-border-radius:50%}.get_avatar.rounded img.avatar.photo{border-radius:5%;-moz-border-radius:5%;-webkit-border-radius:5%}
-</style>
-<?php
-	  return '<span class="get_avatar '.$class.'" style="'.$style.'">'.$get_avatar.'</span>';
+
+          $args = array( 
+                   'class' => $class,
+                   'rating' => $rating,
+                   'extra_attr' => $extra_attr,
+                   'width' => $width,
+                   'height' => $height,
+                   'force_display' => $force_display  
+          );    
+
+	  return get_avatar( $id, $size, $default, $alt, $args );
+
 }
-add_shortcode ('get_avatar', 'candid_user_gravatar_shortcode');
+add_shortcode ('get_avatar', 'brw_get_avatar_shortcode');
 }
 
 ?>
